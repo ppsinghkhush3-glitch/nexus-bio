@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>NEXUS SHADOW</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050505;
+  --card:#0c0c0c;
+  --red:#ff003c;
+  --red2:#ff1744;
+  --green:#00ff9d;
+  --white:#ffffff;
+  --gray:#9b9b9b;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  font-family:'Orbitron',sans-serif;
+  color:white;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top left,rgba(255,0,60,.18),transparent 30%),
+    radial-gradient(circle at bottom right,rgba(255,0,60,.15),transparent 30%);
+  z-index:-2;
+}
+.bg-grid{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:40px 40px;
+  z-index:-1;
+}
+.container{width:95%;margin:auto;padding:30px 0}
+
+/* CYBER CARD */
+.cyber-card{
+  position:relative;
+  background:linear-gradient(145deg,rgba(10,10,10,.92),rgba(18,18,18,.88));
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,0,60,.18);
+  border-radius:26px;
+  padding:30px;
+  margin-bottom:35px;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(255,0,60,.10),inset 0 0 20px rgba(255,0,60,.03);
+}
+.cyber-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(130deg,transparent,rgba(255,0,60,.03),transparent);
+  pointer-events:none;
+}
+.cyber-card::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:26px;
+  padding:1px;
+  background:linear-gradient(130deg,transparent,rgba(255,0,60,.35),transparent);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+}
+
+/* HERO */
+.hero{
+  display:grid;
+  grid-template-columns:320px 1fr 280px;
+  gap:30px;
+  align-items:center;
+}
+
+/* AVATAR */
+.avatar-box{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.avatar-box.show{opacity:1;transform:translateY(0)}
+.avatar{
+  width:100%;
+  border-radius:22px;
+  border:2px solid rgba(255,0,60,.35);
+  box-shadow:0 0 30px rgba(255,0,60,.18);
+  display:block;
+  background:#0d0d0d;
+}
+.avatar-placeholder{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:22px;
+  border:2px solid rgba(255,0,60,.35);
+  background:linear-gradient(145deg,#0a0a0a,#1a1a1a);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5rem;
+  color:var(--red);
+  box-shadow:0 0 30px rgba(255,0,60,.18);
+}
+
+/* PROFILE */
+.profile-info h1{
+  font-size:5rem;
+  font-weight:900;
+  letter-spacing:4px;
+  background:linear-gradient(to bottom,#fff,#8e8e8e);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.username{margin-top:15px;margin-bottom:30px;color:var(--red2);font-size:1.7rem}
+
+/* STATS */
+.stats{max-width:550px}
+.stat{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  color:var(--gray);
+}
+.stat strong{color:var(--green)}
+
+/* QUOTE */
+.quote{
+  margin-top:30px;
+  border-left:4px solid var(--red);
+  padding-left:20px;
+  line-height:1.9;
+  font-size:1.1rem;
+  color:#d3d3d3;
+}
+.quote span{color:var(--red2)}
+
+/* SOCIALS */
+.socials{margin-top:30px;display:flex;gap:15px;flex-wrap:wrap}
+.socials a{
+  text-decoration:none;
+  color:white;
+  padding:14px 22px;
+  border-radius:14px;
+  border:1px solid rgba(255,0,60,.25);
+  background:rgba(255,255,255,.02);
+  transition:transform .4s ease,background .4s ease,box-shadow .4s ease;
+}
+.socials a:hover{
+  transform:translateY(-5px);
+  background:var(--red);
+  box-shadow:0 0 20px rgba(255,0,60,.4);
+}
+
+/* BACKUP */
+.backup-card{
+  background:#090909;
+  border:1px solid rgba(255,0,60,.2);
+  border-radius:22px;
+  padding:20px;
+  text-align:center;
+  transition:opacity .8s ease,transform .8s ease,box-shadow .4s ease;
+  opacity:0;
+  transform:translateY(40px);
+}
+.backup-card.show{opacity:1;transform:translateY(0)}
+.backup-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 25px rgba(255,0,60,.18);
+}
+.backup-img{
+  width:100%;
+  border-radius:18px;
+  margin:18px 0;
+  display:block;
+  background:#0d0d0d;
+}
+.backup-img-placeholder{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:18px;
+  margin:18px 0;
+  background:linear-gradient(145deg,#0a0a0a,#1a1a1a);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  color:var(--red);
+}
+.backup-card p{color:var(--red2)}
+
+/* SECTION TITLE */
+.section-title{margin-bottom:30px;font-size:1.8rem;letter-spacing:4px}
+
+/* FRIENDS */
+.friend-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:22px;
+}
+.friend-card{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:18px;
+  border-radius:22px;
+  background:#090909;
+  border:1px solid rgba(255,255,255,.05);
+  cursor:pointer;
+  transition:opacity .6s ease,transform .6s ease,box-shadow .4s ease,border .4s ease;
+  opacity:0;
+  transform:translateY(40px);
+  text-decoration:none;
+  color:inherit;
+}
+.friend-card.show{opacity:1;transform:translateY(0)}
+.friend-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  border-color:rgba(255,0,60,.35);
+  box-shadow:0 0 25px rgba(255,0,60,.15),0 0 50px rgba(255,0,60,.08);
+}
+.friend-glow{
+  position:absolute;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(255,0,60,.22),transparent 70%);
+  top:-60px;right:-60px;
+  pointer-events:none;
+}
+.friend-card img{
+  width:80px;height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(255,0,60,.25);
+  transition:transform .4s ease,box-shadow .4s ease;
+  flex-shrink:0;
+  background:#0d0d0d;
+}
+.friend-img-placeholder{
+  width:80px;height:80px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#111,#1f1f1f);
+  border:2px solid rgba(255,0,60,.25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6rem;
+  color:var(--red);
+  flex-shrink:0;
+}
+.friend-card:hover img{transform:scale(1.08);box-shadow:0 0 20px rgba(255,0,60,.28)}
+.friend-info{display:flex;flex-direction:column;gap:6px;min-width:0}
+.friend-info h3{font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.friend-info p{color:#8c8c8c;font-size:.85rem}
+.friend-status{color:var(--green);font-size:.72rem;letter-spacing:2px}
+.friend-arrow{
+  margin-left:auto;
+  color:var(--red2);
+  font-size:1.3rem;
+  transition:transform .4s ease;
+  flex-shrink:0;
+}
+.friend-card:hover .friend-arrow{transform:translateX(5px) translateY(-5px)}
+
+/* SKILLS */
+.skill-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+.skill-card{
+  background:#090909;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.05);
+  padding:30px 20px;
+  text-align:center;
+  transition:opacity .6s ease,transform .6s ease,box-shadow .4s ease,border .4s ease;
+  opacity:0;
+  transform:translateY(40px);
+}
+.skill-card.show{opacity:1;transform:translateY(0)}
+.skill-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  border-color:rgba(255,0,60,.28);
+  box-shadow:0 0 25px rgba(255,0,60,.12);
+}
+.skill-circle{
+  width:140px;height:140px;
+  border-radius:50%;
+  border:5px solid var(--red);
+  display:flex;
+  align-items:center;justify-content:center;
+  margin:auto;
+  font-size:2rem;
+  color:var(--red2);
+  box-shadow:0 0 25px rgba(255,0,60,.25),inset 0 0 20px rgba(255,0,60,.12);
+  transition:box-shadow .4s ease;
+}
+.skill-card:hover .skill-circle{
+  box-shadow:0 0 40px rgba(255,0,60,.4),inset 0 0 30px rgba(255,0,60,.2);
+}
+.skill-card h3{margin-top:20px;margin-bottom:12px}
+.skill-card p{color:var(--green)}
+
+/* FOOTER */
+footer{text-align:center;padding:25px;color:#6f6f6f;letter-spacing:3px}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;justify-items:center}
+  .profile-info{width:100%;text-align:center}
+  .stats{max-width:100%}
+  .quote{text-align:left}
+  .socials{justify-content:center}
+  .profile-info h1{font-size:3rem}
+  .backup-card{width:100%;max-width:340px}
+}
+@media(max-width:600px){
+  .profile-info h1{font-size:2rem}
+  .username{font-size:1.2rem}
+  .socials{flex-direction:column}
+  .socials a{text-align:center}
+  .section-title{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+
+<!-- HERO -->
+<section class="hero cyber-card">
+  <div class="avatar-box">
+    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=NexusShadowH&backgroundColor=1a0008&eyes=eva&mouth=bite" class="avatar" alt="NEXUS SHADOW">
+  </div>
+
+  <div class="profile-info">
+    <h1>NEXUS SHADOW</h1>
+    <p class="username">@NexuShadowH</p>
+    <div class="stats">
+      <div class="stat"><span>STATUS</span><strong>ONLINE</strong></div>
+      <div class="stat"><span>LEVEL</span><strong>MAX</strong></div>
+      <div class="stat"><span>REPUTATION</span><strong>UNTRACEABLE</strong></div>
+      <div class="stat"><span>ENCRYPTION</span><strong>ACTIVE</strong></div>
+    </div>
+    <div class="quote">
+      WE DON'T FOLLOW THE SYSTEM.<br>
+      <span>SYSTEM FOLLOWS US.</span>
+  </div>
+
+  <div class="backup-card">
+    <h3>BACKUP ACCOUNT</h3>
+    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dreadsync4&backgroundColor=1a0008&eyes=dizzy&mouth=square" class="backup-img" alt="DREAD SYNC">
+    <h2>DREAD SYNC</h2>
+    <p>@Dreadsync_4</p>
+  </div>
+</section>
+
+<!-- FRIENDS -->
+<section class="cyber-card">
+  <h2 class="section-title">FRIENDS LIST</h2>
+  <div class="friend-grid">
+
+    <a class="friend-card" href="https://t.me/MrAnkit_GoswamiJi" target="_blank" rel="noopener">
+      <div class="friend-glow"></div>
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=MrAnkit_GoswamiJi&backgroundColor=0d0d0d" alt="Ankit Goswami">
+      <div class="friend-info">
+        <h3>ANKIT GOSWAMI</h3>
+        <p>@MrAnkit_GoswamiJi</p>
+        <span class="friend-status">● ONLINE</span>
+      </div>
+      <div class="friend-arrow">↗</div>
+    </a>
+
+    <a class="friend-card" href="https://t.me/cash_graber" target="_blank" rel="noopener">
+      <div class="friend-glow"></div>
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=cash_graber&backgroundColor=0d0d0d" alt="Legend">
+      <div class="friend-info">
+        <h3>LEGEND</h3>
+        <p>@cash_graber</p>
+        <span class="friend-status">● ONLINE</span>
+      </div>
+      <div class="friend-arrow">↗</div>
+    </a>
+
+    <a class="friend-card" href="https://t.me/standy001" target="_blank" rel="noopener">
+      <div class="friend-glow"></div>
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=standy001&backgroundColor=0d0d0d" alt="Standy">
+      <div class="friend-info">
+        <h3>STANDY</h3>
+        <p>@standy001</p>
+        <span class="friend-status">● ONLINE</span>
+      </div>
+      <div class="friend-arrow">↗</div>
+    </a>
+
+    <a class="friend-card" href="https://t.me/SAKSHAM0916" target="_blank" rel="noopener">
+      <div class="friend-glow"></div>
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=SAKSHAM0916&backgroundColor=0d0d0d" alt="Saksham">
+      <div class="friend-info">
+        <h3>SAKSHAM</h3>
+        <p>@SAKSHAM0916</p>
+        <span class="friend-status">● ONLINE</span>
+      </div>
+      <div class="friend-arrow">↗</div>
+    </a>
+
+    <a class="friend-card" href="https://t.me/Nishannt_XD" target="_blank" rel="noopener">
+      <div class="friend-glow"></div>
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Nishannt_XD&backgroundColor=0d0d0d" alt="Nishant">
+      <div class="friend-info">
+        <h3>N I S H A N T ∞</h3>
+        <p>@Nishannt_XD</p>
+        <span class="friend-status">● ONLINE</span>
+      </div>
+      <div class="friend-arrow">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="cyber-card">
+  <h2 class="section-title">SKILL MATRIX</h2>
+  <div class="skill-grid">
+    <div class="skill-card" data-target="98">
+      <div class="skill-circle">0%</div>
+      <h3>HACKING</h3>
+      <p>LVL MAX</p>
+    </div>
+    <div class="skill-card" data-target="95">
+      <div class="skill-circle">0%</div>
+      <h3>DEFENSE</h3>
+      <p>LVL MAX</p>
+    </div>
+    <div class="skill-card" data-target="97">
+      <div class="skill-circle">0%</div>
+      <h3>CODING</h3>
+      <p>LVL MAX</p>
+    </div>
+    <div class="skill-card" data-target="94">
+      <div class="skill-circle">0%</div>
+      <h3>STEALTH</h3>
+      <p>LVL MAX</p>
+    </div>
+    <div class="skill-card" data-target="96">
+      <div class="skill-circle">0%</div>
+      <h3>SNIPING</h3>
+      <p>LVL MAX</p>
+    </div>
+  </div>
+</section>
+
+<footer>UNKNOWN ORIGIN • UNTRACEABLE</footer>
+</div>
+
+<script>
+const revealItems = document.querySelectorAll(
+  '.friend-card,.skill-card,.backup-card,.avatar-box'
+);
+
+const animatedSkills = new Set();
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, idx) => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const i = Array.from(revealItems).indexOf(el);
+    setTimeout(() => {
+      el.classList.add('show');
+      if (el.classList.contains('skill-card') && !animatedSkills.has(el)) {
+        animatedSkills.add(el);
+        animateCounter(el);
+      }
+    }, i * 80);
+    observer.unobserve(el);
+  });
+}, { threshold: 0.1 });
+
+revealItems.forEach(el => observer.observe(el));
+
+function animateCounter(card) {
+  const target = parseInt(card.dataset.target) || 0;
+  const circle = card.querySelector('.skill-circle');
+  let current = 0;
+  const step = Math.ceil(target / 40);
+  const interval = setInterval(() => {
+    current = Math.min(current + step, target);
+    circle.textContent = current + '%';
+    if (current >= target) clearInterval(interval);
+  }, 20);
+}
+</script>
+</body>
+</html>
